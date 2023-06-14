@@ -1,6 +1,13 @@
 
 # CSV Processing Scripts
 
+Gordon Doore
+C3 Database Team
+Last Updated 05/14/2023
+
+#### Info
+
+
 This repository contains Python scripts for processing CSV files and performing various operations on them. Below is an overview of each script and its purpose.
 
 ### Dependencies
