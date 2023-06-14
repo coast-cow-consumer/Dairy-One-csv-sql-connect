@@ -1,3 +1,11 @@
+'''
+Gordon Doore
+06/14/2023
+csv_to_sql.py
+This script provides a function for incrementing CSV IDs and 
+inserting the updated data into a MySQL database table.
+'''
+
 import csv
 import mysql.connector
 
