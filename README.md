@@ -47,15 +47,21 @@ The script performs the following steps:
 5. Commits the changes to the database.
 6. Closes the database connection.
 
-### File: `sort_analysis_csv.py`
+### File: `sort_csv.py`
 
-This script contains helper functions for sorting and organizing CSV files. The two main functions are:
+This script contains helper functions for sorting and organizing CSV files. The main functions are:
 
-- `sort_files_by_naming_convention(folder_path)`: Sorts CSV files in a specified folder based on a predefined naming convention. The function categorizes the files into different subfolders based on their naming suffixes.
-- `sort_sample_from_analysis(folder)`: Separates sample and analysis CSV files within a folder and moves them to respective subfolders.
+1. `sort_files_by_naming_convention(folder_path)`: This function sorts files in a given folder based on their naming convention. It defines a dictionary `file_types` that maps file suffixes to corresponding folder names. It iterates through the files in the folder and checks each file type to find a match. It then moves the file to the corresponding destination folder based on its type.
 
-Please refer to the individual script files for more detailed function documentation and usage examples.
+2. `sort_sample_from_analysis(folder)`: This function sorts files in a given folder into separate sample and analysis folders. It iterates through the files in the folder and checks if the file matches the pattern for analysis or sample files. If it matches, it moves the file to the respective folder.
 
+3. `sort_tfa(folder)`: This function moves files with a suffix "_t.csv" from a given folder to a "data" folder within that folder. It creates the "data" folder if it doesn't exist already.
+
+4. `sort_macro_files(csv_folder_path)`: This function sorts files in a given folder into separate "data" and "sample" folders based on their suffixes. It iterates through the files and checks if the file ends with "_m.csv" or "_ms.csv". It then moves the file to the corresponding destination folder based on its type.
+
+The file also includes an example usage section that demonstrates how to use the functions by providing a folder path and sorting the files accordingly.
+
+Please note that the file should be executed as the main script to trigger the example usage.
 ---
 
 Feel free to customize the README file further by adding additional sections, including installation instructions, usage examples, or any other relevant information.
