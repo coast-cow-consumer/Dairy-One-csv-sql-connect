@@ -53,6 +53,6 @@ if __name__ == "__main__":
     'database': 'C3_Database',
     'port': 25060
     }
-    TABLE = 'C3AnalysisGrain'
+    TABLE = 'C3Macro'
     CSV = 'test.csv'
     increment_csv_ids(TABLE,CSV,db)
