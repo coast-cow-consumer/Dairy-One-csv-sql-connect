@@ -68,13 +68,23 @@ def sort_tfa(folder):
     files = os.listdir(folder)
 
     for file in files:
+        f_path = os.path.join(folder, file)
+        file_type = None
         if file.endswith('_t.csv'):
-            # Construct the source and destination paths
-            source_path = os.path.join(folder, file)
-            destination_path = os.path.join(data_folder, file)
+            file_type = "data"
+        elif file.endswith("_ts.csv"):
+            file_type = "sample"
 
-            # Move the file to the 'data' folder
-            shutil.move(source_path, destination_path)
+        # Construct the source and destination paths
+        destination_folder = f"csv/C3TFA/{file_type}"
+        destination_path = os.path.join(destination_folder, file)
+
+       
+        # Move the file to the corresponding destination folder
+        if file_type == None: 
+            continue
+        os.makedirs(destination_folder, exist_ok=True)
+        os.rename(f_path, destination_path)
 
 
 def sort_macro_files(csv_folder_path):
