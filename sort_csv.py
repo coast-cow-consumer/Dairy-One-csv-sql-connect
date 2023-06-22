@@ -1,7 +1,7 @@
 '''
 Gordon Doore
 06/14/2023
-sort_analysis_csv.py
+sort_csv.py
 This script contains helper functions for sorting and organizing analysis CSV files in target directory
 '''
 

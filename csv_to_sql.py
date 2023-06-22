@@ -44,6 +44,12 @@ def increment_csv_ids(table_name, csv_file_path, db_config):
     cursor.close()
     cnx.close()
 
+def sample_to_db(table_name, csv_file_path, db_config):
+    cnx = mysql.connector.connect(**db_config)
+    cursor = cnx.cursor()
+    print("connection success")
+
+    #now need to see if 
 if __name__ == "__main__":
     # Database credentials
     db = {
