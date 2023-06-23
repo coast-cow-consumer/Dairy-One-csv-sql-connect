@@ -10,6 +10,49 @@ import os
 import shutil
 from csv_to_sql import increment_csv_ids
 import sort_csv as sort
+from process_sample import process_sample
+
+def samples_to_db(db):
+    #we are looking to go to all folders within folders of current directory with name "sample"
+    #then we go into those files and call process_sample.py
+    
+    #first we want to sort our files
+    # Iterate through folders in 'csv' directory
+    for folder in os.listdir('csv'):
+        if folder.startswith("."):
+            continue #ignore hidden files
+        if len(os.listdir("csv/"+folder)) ==0:
+            continue #ignore empty folders
+        if folder.startswith("C3Macro"):
+            sort.sort_macro_files("csv/C3Macro/")
+        elif folder.startswith("C3TFA"):
+            continue
+        else:
+            path = "csv/" + folder + "/"
+            sort.sort_sample_from_analysis(path)
+
+    #now we want to find a csv path 
+    csv_paths = {}
+    tables = ["C3AnalysisDryAE", "C3AnalysisGrain", "C3AnalysisManure", "C3AnalysisOther", "C3AnalysisTMR", "C3AnalysisUnrecognized", "C3Macro", "C3TFA"]
+    for table_name in tables:
+        # Configure csv paths
+        csv_paths["csv/" + table_name + "/sample/"] = table_name
+    
+    #now that we have the paths, we need to go in and process all of the files in our folders called sample
+    table = "C3SampleMaster"
+
+    for path in csv_paths.keys():
+        print(path)
+        if not os.path.exists(path):
+            continue
+        for file in os.listdir(path):
+            file_path = path + file
+            print("Appending " + file_path + " to table: " + table)
+            print(db)
+            process_sample(table,db,file_path)
+            shutil.move(file_path, 'csv/used_csvs/')
+
+
 
 def main():
     # Sort CSVs
@@ -59,4 +102,12 @@ def main():
             shutil.move(file_path, 'csv/used_csvs/')
     
 if __name__ == "__main__":
-    main()
+    db = {
+        'user': 'doadmin',
+        'password': 'AVNS_UXdKjBYJzYULsF8uJnC',
+        'host': 'c3-database-do-user-914951-0.b.db.ondigitalocean.com',
+        'database': 'C3_Database',
+        'port': 25060
+    }
+    samples_to_db(db)
+    #main()

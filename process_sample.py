@@ -18,7 +18,7 @@ def process_sample(table_name, database_info, csv_file):
     '''
 
     try:
-        cnx = mysql.connector.connect(database_info)
+        cnx = mysql.connector.connect(**database_info)
         cursor = cnx.cursor()
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -29,7 +29,7 @@ def process_sample(table_name, database_info, csv_file):
             print("Error:", err)
         exit()
     #sample_num is primary key
-    columns = ['sample_num', 'sample_type','description','date_sampled', 'date_received', 'date_printed', 'date_printed','ST','CO','institution', 'investigator']
+    columns = ['sample_number', 'sample_type','code','description','date_sampled', 'date_received', 'date_printed','ST','CO','institution', 'address1','address2','investigator', 'comments']
 
 
     with open(csv_file, 'r') as file:
@@ -37,13 +37,12 @@ def process_sample(table_name, database_info, csv_file):
         data = [row for row in reader]
 
     for row in data:
-        placeholders = ', '.join(['%s'] * len(row))
         columns_sql = ', '.join(row.keys())
         values_sql = ', '.join(['%s'] * len(row))
         query = f"INSERT INTO {table_name} ({columns_sql}) VALUES ({values_sql}) " \
                 f"ON DUPLICATE KEY UPDATE {', '.join([f'{col} = VALUES({col})' for col in columns])}"
-
-        cursor.execute(query, list(row.values()) * 2)
+        print("inserted")
+        cursor.execute(query, list(row.values()))
 
     cnx.commit()
     cursor.close()
