@@ -26,7 +26,7 @@ def samples_to_db(db):
         if folder.startswith("C3Macro"):
             sort.sort_macro_files("csv/C3Macro/")
         elif folder.startswith("C3TFA"):
-            continue
+            sort.sort_tfa("csv/C3TFA/")
         else:
             path = "csv/" + folder + "/"
             sort.sort_sample_from_analysis(path)
@@ -50,7 +50,11 @@ def samples_to_db(db):
             print("Appending " + file_path + " to table: " + table)
             print(db)
             process_sample(table,db,file_path)
-            shutil.move(file_path, 'csv/used_csvs/')
+            try:
+                shutil.move(file_path, 'csv/used_csvs/')
+            except shutil.Error as e:
+                # Handle the case when a file with the same name already exists
+                print("Error: File already exists at the destination.")
 
 
 
